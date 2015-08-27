@@ -19,12 +19,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
 function spectrumViewer(canvasID){
+
+
 
 	////////////////////////////////////////////////////////////////////////
 	//member variables//////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////
 	//canvas & context
+	
 	this.canvasID = canvasID; //canvas ID
 	this.canvas = document.getElementById(canvasID); //dom element pointer to canvas
 	this.canvas.style.backgroundColor = '#333333';
@@ -79,7 +83,7 @@ function spectrumViewer(canvasID){
 	this.chooseLimitsCallback = function(){};
 
 	//data
-	this.plotBuffer = {}; //buffer holding all the spectra we have on hand, packed as 'name':data[], where data[i] = counts in channel i
+	this.plotBuffer = {}; //buffer holding all the spectra we have on hand, packed as 'name':data[], where data[i] = counts in channel i	
 	this.fakeData = {};
 	this.fakeData.energydata0 = [200,48,42,48,58,57,59,72,85,68,61,60,72,147,263,367,512,499,431,314,147,78,35,22,13,9,16,7,10,13,5,5,3,1,2,4,0,1,1,1,0,1,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,111,200,80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,40,80,120,70,20,20,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,300,650,200,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	this.entries = {}; //number of entries in each displayed spectrum
@@ -231,6 +235,7 @@ function spectrumViewer(canvasID){
 	};
 
 	//update the plot
+	
 	this.plotData = function(RefreshNow){
 		var i, j, data, thisSpec, totalEntries, color,
 		thisData = [];
@@ -290,7 +295,7 @@ function spectrumViewer(canvasID){
 							//left side of bar
 							if( i != Math.floor(this.XaxisLimitMin))
 								histLine.graphics.lt( this.leftMargin + (i-this.XaxisLimitMin)*this.binWidth, this.canvas.height - this.bottomMargin - Math.max(0, (Math.log10(this.plotBuffer[thisSpec][i]) - Math.log10(this.YaxisLimitMin)))*this.countHeight );
-							else
+							else 
 								histLine.graphics.mt( this.leftMargin + (i-this.XaxisLimitMin)*this.binWidth, this.canvas.height - this.bottomMargin - Math.max(0, (Math.log10(this.plotBuffer[thisSpec][i]) - Math.log10(this.YaxisLimitMin)))*this.countHeight );
 							//top of bar
 							histLine.graphics.lt( this.leftMargin + (i+1-this.XaxisLimitMin)*this.binWidth, this.canvas.height - this.bottomMargin - Math.max(0, (Math.log10(this.plotBuffer[thisSpec][i]) - Math.log10(this.YaxisLimitMin)))*this.countHeight );
@@ -301,7 +306,7 @@ function spectrumViewer(canvasID){
 							else
 								histLine.graphics.mt( this.leftMargin + (i-this.XaxisLimitMin)*this.binWidth, this.canvas.height - this.bottomMargin );
 							//crawl along x axis until log-able data is found:
-							histLine.graphics.lt( this.leftMargin + (i+1-this.XaxisLimitMin)*this.binWidth, this.canvas.height - this.bottomMargin );
+							histLine.graphics.lt( this.leftMargin + (i+1-this.XaxisLimitMin)*this.binWidth, this.canvas.height - this.bottomMargin ); 
 						}
 					}
 
@@ -311,7 +316,7 @@ function spectrumViewer(canvasID){
 			//if(this.plotBuffer[thisSpec].length == this.XaxisLimitMax) 
 			//	histLine.graphics.lt(this.canvas.width - this.rightMargin, this.canvas.height - this.bottomMargin );
 			this.containerMain.addChild(histLine);
-			j++;
+			//j++;
 		} // End of for loop
 		this.stage.update();
 
@@ -320,7 +325,7 @@ function spectrumViewer(canvasID){
 
 		// Pause for some time and then recall this function to refresh the data display
 		if(this.RefreshTime>0 && RefreshNow==1) this.refreshHandler = setTimeout(function(){plotData(1, 'true')},this.RefreshTime*1000); 	
-	};
+	}; 
 
 	//handle drag-to-zoom on the plot
 	this.DragWindow = function(){
@@ -353,6 +358,7 @@ function spectrumViewer(canvasID){
 			this.clickBounds = [];
 		} else
 			this.ClickWindow(this.XMouseLimitxMax)
+
 	};
 
 	//handle clicks on the plot
@@ -389,6 +395,7 @@ function spectrumViewer(canvasID){
 				this.stage.update();
 			}
 		}
+	
 	};
 
 	//scroll the plot x-window by x to the right
@@ -517,6 +524,7 @@ function spectrumViewer(canvasID){
 		this.clearFits();
 
 		this.plotData();
+
 	};
 
 	//set the axis to 'linear' or 'log', and repaint
@@ -550,7 +558,7 @@ function spectrumViewer(canvasID){
 	this.fitData = function(fitKey){
 		var cent, fitdata, i, max, width, x, y, height;
 		var fitLine, fitter;
-
+		
 		//suspend the refresh
 		window.clearTimeout(this.refreshHandler);
 
@@ -560,7 +568,9 @@ function spectrumViewer(canvasID){
  		//old method just sticks a hat on the peak; use this as initial guess
 		max=1;
 
+		////////////////////////////////////////////////////////////////////////////////////////////
 		fitdata=this.plotBuffer[fitKey];
+
 
 		fitdata=fitdata.slice(this.FitLimitLower, this.FitLimitUpper+1);
 
@@ -629,6 +639,7 @@ function spectrumViewer(canvasID){
 		this.fitModeEngage = 0;
 
 		this.fitCallback(cent, width);
+
 	};
 
 	//dump the fit results
@@ -647,6 +658,7 @@ function spectrumViewer(canvasID){
 		this.adjustXaxis();
 
 		this.plotData();
+	
 	};
 
 	//add a data series to the list to be plotted with key name and content [data]
@@ -655,10 +667,7 @@ function spectrumViewer(canvasID){
 
 		//refuse to display more than 10 data series, it's ugly.
 		nSeries = Object.keys(this.plotBuffer).length;
-		if(nSeries > this.dataColor.length){
-			alert('gammaSpectrum only allows at most' + this.dataColor.length + 'series to be plotted simultaneously.');
-			return;
-		}
+		
 
 		//choose the first available color and assign it to this data series
 		if(this.colorAssignment.indexOf(name) == -1){
@@ -666,10 +675,216 @@ function spectrumViewer(canvasID){
 			while(this.colorAssignment[i]) i++;
 			this.colorAssignment[i] = name;
 		}
-
-		//append the data to the data buffer
+		
 		this.plotBuffer[name] = data;
-	};
+
+
+
+		};
+		
+	this.addData1 = function(name, data){
+
+
+		return data;
+
+
+		};
+
+
+
+
+
+
+this.names=function(n) { //returns the names of the HPGe detectors
+
+var value = document.getElementById('GRGeTITLE');
+var node=value.getElementsByClassName("unhidden")[n].innerHTML;		
+return node;
+
+
+}; 
+/*
+this.calibrateAll=function() {
+		alert(5);
+		/*var NAME=new Array(30); //get the names to put in the table
+		for(var index=6;index<=6+48;index=index+1) {
+		NAME[index-7]=viewer.names(index);
+	
+		} 
+	
+	var body = document.getElementById("canvasWrapCalibration");
+
+	var tbl = document.createElement("table");
+	tbl.id="tableId";
+	var tblBody = document.createElement("tbody");
+	tblBody.id="bodyId";
+
+
+	for (var j = 0; j <=5; j++) { // j=46 is the upper limit to get all the HPGe detectors
+		
+		/*var list=document.cookie;
+		addSpectrum(NAME[j]);	
+		
+		var list=document.cookie;
+		var calibrationValues=JSON.parse(list);
+		var slope=calibrationValues[0];
+		var offset=calibrationValues[1];
+		
+		
+		var row = document.createElement("tr");
+
+			for (var i = 0; i < 4; i++) { //number of columns
+			
+			
+				if(i==0) {  //column of spectrum names
+				var cell = document.createElement("td");    
+				var cellText = document.createTextNode(5);//NAME[j+1]); 
+				cell.appendChild(cellText);
+				row.appendChild(cell);
+				}
+				
+				else if(i==1) {	//slope header cell
+				var cell = document.createElement("td");    
+				var cellText = document.createTextNode(4);//slope); 
+				cell.appendChild(cellText);
+				row.appendChild(cell);
+				}
+				
+				else if(i==2) {  //offset header cell
+				var cell = document.createElement("td");    
+				var cellText = document.createTextNode(3);//offset); 
+				cell.appendChild(cellText);
+				row.appendChild(cell);
+				}
+				
+				else if(i==3) {  // Input/select all button to send to ODB
+				
+				var cell = document.createElement("td");  
+				var cellText = document.createTextNode("Send values"); 
+				cell.appendChild(cellText);
+				row.appendChild(cell);
+				
+				var x = document.createElement("INPUT");
+		    		x.setAttribute("type", "checkbox");
+		    		x.setAttribute("value", "Click me");
+		    		x.checked=true;
+		    		cell.appendChild(x);	
+				
+				}
+
+			}
+			
+			tblBody.appendChild(row);
+			
+}
+        		tbl.appendChild(tblBody);
+        		body.appendChild(tbl); */
+			//document.cookie = "list; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+ 
+
+this.ODB=function() {
+
+for (var n=0;n<=5;n=n+1) { //index of n must be the same as j in function calibrateAll()
+	var y=document.getElementById("checkButton" +n);
+
+		if (y.checked==true)
+		{ 
+			var z=document.getElementById("slope" +n).innerHTML; //slope value to send to ODB
+			var w=document.getElementById("offset" +n).innerHTML; //offset value to send to ODB
+			alert("the slope of the checked box is " + z + " the offset is " + w);	
+		
+			//send values to the ODB here//
+			///////////////////////////////
+		}
+
+
+	}
+
+
+}
+
+
+
+
+this.gainMatch=function(data) {
+	
+		var peak1=1173;		//prompt("Enter the first peak value for the desired source"); //
+		var peak2=1332;		//prompt("Enter the second peak value for the desired source");
+
+		var channels=1;			//number of channels to be changed later
+		var m_array=new Array(channels); 	//slope and offset arrays
+		var b_array=new Array(channels);
+
+		var x1; 
+		var x2; 				// x1 and x2 positions
+		var positions=new Array(2);	
+		// loop through all channels
+		
+		for(var n=0;n<=channels;n=n+1) {
+				var test=data;	
+				
+				/*for(var k=0;k<=1300;k=k+1)
+				{
+				test[k]=0;
+				}
+				
+				for(var k=1900;k<=5000;k=k+1)
+				{
+				test[k]=0;
+				}
+				*/
+				
+				
+				var end=test.length;
+				var max1=Math.max.apply(Math,test); // First maximum
+
+				for(var i=0; i<=end;i=i+1)
+				{
+					if (test[i]==max1)
+					{ 
+					positions[0]=i;
+					for (var z=-9;z<=9;z=z+1)
+					{
+						test[i+z]=0;	
+					}
+					
+					 
+					}		
+				}
+
+				var max2=Math.max.apply(Math,test); // Second maximum
+
+				for(var i=0; i<=end;i=i+1)
+				{
+					if (test[i]==max2)
+					{ 
+					positions[1]=i; }		
+				}
+
+				if (positions[0]>positions[1]) //set the positions array in ascending x order
+					{  
+						x2=positions[0];
+						x1=positions[1];
+					}
+				else
+					{
+						x2=positions[1];
+						x1=positions[0];
+					}
+		
+					
+					m_array[n] =(peak2-peak1)/(x2-x1); //perform gain matching
+					b_array[n] = peak1 - m_array[n]*x1;
+					
+					m_array[n]=m_array[n].toFixed(3); //Round the calibration values to three decimal places
+					b_array[n]=b_array[n].toFixed(3);
+				
+				var calibrationArray=[m_array,b_array];
+				return calibrationArray;	
+				
+			}
+}		
+
 
 	//remove a data series from the buffer
 	this.removeData = function(name){
@@ -824,3 +1039,8 @@ HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
 Math.log10 = function(n) {
 	return (Math.log(n)) / (Math.log(10));
 };
+
+
+
+
+

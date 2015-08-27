@@ -1,135 +1,131 @@
 <html>
 
-	<head>
-		<script src="gammaSpectrum.js" type="text/javascript"></script>
-		<script src="fitit.js" type="text/javascript"></script>
-		<script src="fieldViewer.js" type="text/javascript"></script>
-		<script src="spectrumViewer.js" type="text/javascript"></script>
-		<script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
-		<script type='text/javascript' src='brick-0.9.1.js'></script>
+		<head>
+		<script src="SVgammaSpectrum2_js" type="text/javascript"></script>
+		<script src="SVfitit2_js" type="text/javascript"></script>
+		<script src="SVfieldViewer_js" type="text/javascript"></script>
 
-		<link rel="stylesheet" type="text/css" href="spectrumViewer.css"/>
-		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-		<link rel='stylesheet' type='text/css' href='brick-0.9.1.css'>
+		<script src="SVspectrumViewer2_js" type="text/javascript" defer></script>
+	  <script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script> 
+		<script src="SVbrick2-0_9_1_js" type="text/javascript"></script>
+		<script src='SVmhttpd2_js'></script>
+		<script src='SVspectrumResolution_js' type="text/javascript" defer></script>
+		<script src='SVdygraph-combined-dev_js'></script>
+
+		<link href="SVspectrumViewer2_css" rel="stylesheet" type="text/css" />
+		<link href="http://fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css' />
+		<link href="SVbrick2-0_9_1_css' rel='stylesheet" type='text/css' />
 	</head>
 
 	<body onLoad='setup()'>
 		<div id='wrapper'>
 
-		    <div id='branding'>
-		    	<img id='logo' src='logo.gif'></img>
-		    	<h1 id='headerBanner'>GRIFFIN</h1>
-		    </div>
+    <div id='branding'>
+    	<img id='logo' src='SVlogo.gif'></img>
+    	<h1 id='headerBanner'>GRIFFIN</h1>
 
-		    <div id='navigation'>
-		    	<button id='statusButton' class='navButton'>MIDAS Status</button>
-		    </div>
+    </div>
+
+    <div id='navigation'>
+    	<button id='statusButton' class='navButton'>MIDAS Status</button>
+			<label id='waitMessage'> Please perform a calibration before checking the resolution  </label>
+			<button id='Reset'> Reload page </button>
+    </div>
 
 			<x-deck id='mainDeck' selected-index='0'>
-				<x-card id='spectra1D'>
-			    	<div class= 'canvasWrap' id='canvasWrap'>
-			    		<canvas id='spectrumCanvas'></canvas>
-			    		<form id='plotControl'>
-				    		<div id='xRangeWrap', class='UIchunk'>
-					    		<input class='inputBox' id='minX' type='number' value='0' onchange='updatePlotRange()'></input>
-					    		<label class='inputLabel' id='xRangeLabel'>< x <</label>
-				    			<input class='inputBox' id='maxX' type='number' value='2048' onchange='updatePlotRange()'></input>
-				    		</div>
+			<x-card id='spectra1D'>
 
-				    		<div id='scrollWrap', class='UIchunk'>
-				    			<button class='inputButton' id='bigLeft' type='button'>&#x21C7</button>
-				    			<button class='inputButton' id='littleLeft' type='button'>&#x2190</button>
-				    			<button class='inputButton' id='littleRight' type='button'>&#x2192</button>
-				    			<button class='inputButton' id='bigRight' type='button'>&#x21C9</button>
-				    		</div>
+	    	<div class= 'hidden' id='canvasWrap'>
+	    		<canvas id='spectrumCanvas' class='unhidden'></canvas> 
+	    	</div>
 
-					    	<div id='fitModeToggle' engaged='0'>
-					    		Fit Mode
-					    	</div>
 
-					    	<button class='inputButton' id='unzoom' type='button'>Unzoom</button>
 
-					    	<div id='logToggleWrap' class='UIchunk'>
-					    		<label class='inputLabel' id='linLabel'>Linear</label>
-					    		<label class='inputLabel' id='logLabel'>Log</label>
-					    	</div>
+		    	<div class='sidebarWrap' id='sidebarWrap'>
+		    		<div class='deckNavWrap'>		
+								<label id='calibrateLabel' class='inputLabel'>Calibration Source:</label>
+								<select id='calOptions'>
+									<option id='emptyOption' value=1>  </option>	
+					    		<option id='Co' value=2>Co-60</option>
+					    		<option id='Eu' value=3>Eu-152</option>
+					    	</select>									
+							<button id='performCalibration'> Calibrate Now </button>
 
-					    	<button class='inputButton' id='waveformSnap' type='button' engaged='0'>Snap to Waveform</button>
+						<div id='resolution'>	
+					
+						<label id='resolutionPeaks' class='inputLabel'>Peaks:</label>
 
-					    	<div id='updateWrap' class='UIchunk'>
-						    	<label id='updateLabel' class='inputLabel'>Update Every: </label>
-						    	<select id='upOptions'>
-						    		<option value='3000'>3 s</option>
-						    		<option value='5000'>5 s</option>
-						    		<option value='10000'>10 s</option>
-						    		<option value='-1'>never</option>
-						    	</select>
-						    	<button id='upNow' class='inputButton' type='button'>Update Now</button>
-						    </div>
-				    	</form>
 
-			    	</div>
+						<select id='resOptions' onchange="optionSelect()">
+									<option id='emptyOption1' value=0>  </option>	
+									<option id='customOption' value=1>Custom Peaks</option>	
+					    		<option id='Co' value=2>Co-60</option>
+					    		<option id='Eu' value=3>Eu-152</option>
+					  </select>	
 
-			    	<div class='sidebarWrap' id='sidebarWrap'>
-			    		<div class='deckNavWrap'>
-			    			<button id='deckNav1Dat1D' class='deckNav1D'>1D Spectra</button>
-			    			<button id='deckNav2Dat1D' class='deckNavPassive'>2D Spectra</button>
-			    		</div>
-			    		<ul id='availableSpectra'></ul>
+						<button id="ResTable"> Table </button>
+						<button id="ResGraph"> Graph </button>
+						
 
-			    	</div>
+						</div>		
+		    		</div>
+		    		
+						<ul class='availableSpecHIT' id='availableSpectraHIT'></ul>
+		    		<ul class='availableSpecSUM' id='availableSpectraSUM'></ul>
+		    		<ul class='availableSpecGRGe' id='availableSpectraGRGe'></ul>
+		    		<ul class='availableSpecGRGt' id='availableSpectraGRGt'></ul>
+		    		<ul class='availableSpecGRGp' id='availableSpectraGRGp'></ul>
+		    		<ul class='availableSpecGRGw' id='availableSpectraGRGw'></ul>
+		    		<ul class='availableSpecSEPe' id='availableSpectraSEPe'></ul>
+		    		<ul class='availableSpecSEPt' id='availableSpectraSEPt'></ul>
+		    		<ul class='availableSpecSEPp' id='availableSpectraSEPp'></ul>
+		    		<ul class='availableSpecSEPw' id='availableSpectraSEPw'></ul>
+		    		<ul class='availableSpecDSCe' id='availableSpectraDSCe'></ul>
+		    		<ul class='availableSpecDSCt' id='availableSpectraDSCt'></ul>
+		    		<ul class='availableSpecDSCp' id='availableSpectraDSCp'></ul>
+		    		<ul class='availableSpecDSCw' id='availableSpectraDSCw'></ul>
+		    		<ul class='availableSpecDSCz' id='availableSpectraDSCz'></ul>
+		    		<ul class='availableSpecDSCl' id='availableSpectraDSCl'></ul>
+		    		<ul class='availableSpecDSCs' id='availableSpectraDSCs'></ul> 
 
-				    <div id='recentSpectra'>
-				 		<div id='titleRow' class='recentWrap'>
-				 			<div id='spectraList'>Spectra</div>
-				 			<div id='fitTarget'>Fit Target</div>
-				 			<div id='fitResults' class='fitResults'>Fit Results
-				 				<button class='inputButton' type='button' id='clearFits'>Clear</button>
-				 			</div>
-				 			<div id='killAllLabel'>Delete All</div>
-				 			<div id='killAll' class='killSwitch'>&#x2573</div>
-				 		</div>
+		    	</div>
 
-				    </div>
+			    <div id='recentSpectra' class='hidden'>
+			 		<div id='titleRow' class='recentWrap'>
+			 	</div>
+			  </div>
 
-				</x-card>
+			</x-card>
 
-				<x-card id='spectra2D'>
+				<x-card id='spectra2D' class='hidden' >
 			    	<div class='canvasWrap' id='canvasWrap2D'>
 			    		<canvas id='fieldCanvas'></canvas>
-			    		<form id='plotControl2D'>
-				    		<div id='scrollWrap2Dhoriz', class='UIchunk'>
-				    			<button class='inputButton' id='bigLeft2D' type='button'>&#x21C7</button>
-				    			<button class='inputButton' id='littleLeft2D' type='button'>&#x2190</button>
-				    			<button class='inputButton' id='littleRight2D' type='button'>&#x2192</button>
-				    			<button class='inputButton' id='bigRight2D' type='button'>&#x21C9</button>
-				    		</div>
 
-				    		<div id='scrollWrap2Dvert', class='UIchunk'>
-				    			<button class='inputButton' id='bigUp2D' type='button'>&#x21C8</button>
-				    			<button class='inputButton' id='littleUp2D' type='button'>&#x2191</button>
-				    			<button class='inputButton' id='littleDown2D' type='button'>&#x2193</button>
-				    			<button class='inputButton' id='bigDown2D' type='button'>&#x21CA</button>
-				    		</div>
-
-				    		<button class='inputButton' id='unzoom2D' type='button'>Unzoom</button>
-
-					    	<div id='logToggleWrap2D' class='UIchunk'>
-					    		<label class='inputLabel' id='linLabel2D'>Linear</label>
-					    		<label class='inputLabel' id='logLabel2D'>Log</label>
-					    	</div>
-
-				    	</form>
 			    	</div>
 
 			    	<div class='sidebarWrap' id='sidebarWrap2D'>
-			    		<div class='deckNavWrap'>
-			    			<button id='deckNav1Dat2D' class='deckNavPassive'>1D Spectra</button>
-			    			<button id='deckNav2Dat2D' class='deckNav2D'>2D Spectra</button>
-			    		</div>
 			    		<ul id='availableSpectra2D'></ul>
 			    	</div>
+				</x-card> 
+				
+
+				<x-card id='Calibration'> 
+				
+				<div class='unhidden' id='canvasWrapCalibration'>
+				<div id='buttonList' class='hidden'> 
+				<button id='uncheckAll' class='deckNavPassive'> Uncheck All </button> 
+				<button id='checkAll' class='deckNavPassive'> Check All </button> 
+				<button id='SendODB' class='deckNavPassive'> Send to ODB </button>
+
+				<button id='redOutlier' style="cursor:Pointer;" title="Value differs by at least 45% from the average" disabled='disabled'> </button>
+				<p id='redValue' style="cursor:Pointer;" title="Value differs by at least 45% from the average" > Value is an outlier </p>			
+
+				<button id='brownOutlier' style="cursor:Pointer;" title="Value can be obviously ignored" disabled='disabled'> </button>
+				<p id='brownValue' style="cursor:Pointer;" title="Value can be obviously ignored"> Value was ignored </p>		
+				</div>    		
+			    	</div>
 				</x-card>
+				
 			</x-deck>
 		    
 		    <div id='bumperDiv'></div>
@@ -137,187 +133,490 @@
 		</div>
 
 		<div id='footer'>
-			Spectrum Viewer - GRIFFIN Collaboration 2013 
+			Spectrum Viewer 2 - GRIFFIN Collaboration 2015
 		</div>
 
-		<script>
+		<script>			
+			
 			function main(){
 
 				//scrape the URL for a query string
 				queryString();
 
-				//inject the linear / log toggle - 1D
-				toggleSwitch('logToggleWrap', 'toggleYscale', '', '', '', viewer.setAxisType.bind(viewer, 'log'), viewer.setAxisType.bind(viewer, 'linear'), 0);
-				document.getElementById('logToggleWrap').insertBefore(document.getElementById('logLabel'), null);
-
-				//inject the linear / log toggle - 2D
-				toggleSwitch('logToggleWrap2D', 'toggleZscale', '', '', '', fieldViewer.setAxisType.bind(fieldViewer, 'log'), fieldViewer.setAxisType.bind(fieldViewer, 'linear'), 0);
-				document.getElementById('logToggleWrap2D').insertBefore(document.getElementById('logLabel2D'), null);
-
-				//callback after drawing spectrum
-				viewer.drawCallback = function(){
-					var xMin = document.getElementById('minX'),
-						xMax = document.getElementById('maxX');
-
-					//keep the x-range input up to date
-					xMin.value = this.XaxisLimitMin;
-					xMax.value = this.XaxisLimitMax;
+				document.getElementById('Reset').onclick=function() { // Reloads the page
+				window.location.href=window.location.href;
 				}
+	
+	// Perform the gain matching with the desired source	
+	document.getElementById('performCalibration').onclick = function(){
 
-				//setup x-deck navigation
-				document.getElementById('deckNav2Dat1D').onclick = function(){document.getElementById('mainDeck').shuffleTo(1);}
-				document.getElementById('deckNav1Dat2D').onclick = function(){document.getElementById('mainDeck').shuffleTo(0);}
-
-				//onclick for scroll buttons - 1D:
-				document.getElementById('bigLeft').onclick = viewer.scrollSpectra.bind(viewer, -100);
-				document.getElementById('littleLeft').onclick = viewer.scrollSpectra.bind(viewer, -1);
-				document.getElementById('littleRight').onclick = viewer.scrollSpectra.bind(viewer, 1);
-				document.getElementById('bigRight').onclick = viewer.scrollSpectra.bind(viewer, 100);
-
-				//onclick for scroll buttons - 2D horizontal:
-				document.getElementById('bigLeft2D').onclick = fieldViewer.scrollX.bind(fieldViewer, -10);
-				document.getElementById('littleLeft2D').onclick = fieldViewer.scrollX.bind(fieldViewer, -1);
-				document.getElementById('littleRight2D').onclick = fieldViewer.scrollX.bind(fieldViewer, 1);
-				document.getElementById('bigRight2D').onclick = fieldViewer.scrollX.bind(fieldViewer, 10);
-
-				//onclick for scroll buttons - 2D vertical:
-				document.getElementById('bigUp2D').onclick = fieldViewer.scrollY.bind(fieldViewer, 10);
-				document.getElementById('littleUp2D').onclick = fieldViewer.scrollY.bind(fieldViewer, 1);
-				document.getElementById('littleDown2D').onclick = fieldViewer.scrollY.bind(fieldViewer, -1);
-				document.getElementById('bigDown2D').onclick = fieldViewer.scrollY.bind(fieldViewer, -10);
-
-				//unzoom
-				document.getElementById('unzoom').onclick = viewer.unzoom.bind(viewer);
-				document.getElementById('unzoom2D').onclick = fieldViewer.unzoom.bind(fieldViewer);
-
-				//fit mode
-				document.getElementById('fitModeToggle').onclick = function(){
-					if(this.engaged){
-						this.style.backgroundColor = '#444444';
-						viewer.leaveFitMode();
-						this.engaged = 0;
-					} else {
-						this.style.backgroundColor = '#777777';
-						viewer.setupFitMode();
-						this.engaged = 1; 
-					}
-				}
-				viewer.fitCallback = function(mean, width){
-					fitCallback(mean, width);
-					document.getElementById('fitModeToggle').onclick();
-				}
-
-				//waveform snap
-				document.getElementById('waveformSnap').onclick = function(){
-					if(this.engaged){
-						this.style.backgroundColor = '#444444';
-						viewer.demandXmin = null;
-						viewer.demandXmax = null;
-						viewer.demandYmin = null;
-						viewer.demandYmax = null;
-						viewer.chooseLimitsCallback = function(){};
-						viewer.unzoom();
-						this.engaged = 0;
-					} else {
-						this.style.backgroundColor = '#777777';
-						viewer.demandXmin = 0;
-						viewer.demandXmax = 256;
-						viewer.chooseLimitsCallback = function(){
-							//set some demand values for the y axis and rerun the limit calculation
-							var rerun = viewer.demandYmin == null;
-							viewer.demandYmin = Math.max(0, viewer.minY - (viewer.maxY - viewer.minY)*0.1);
-							viewer.demandYmax = viewer.maxY + (viewer.maxY - viewer.minY)*0.1; 
-							if(rerun) viewer.chooseLimits();
-							viewer.demandYmin = null;
-							viewer.demandYmax = null;
-						}
-						viewer.plotData();
-						this.engaged = 1; 
-					}					
-				}
+						if (document.getElementById('calOptions').value==1) {alert('Please select a source');}
+		
+			
 				
+						else {								
+																	// remove any pre-existing fields from previous calibrations
+																	if (document.getElementById('tableId')!=null) {
+																			document.getElementById('tableId').remove(); 		 
+																			document.getElementById('buttonList').className='hidden';}				
+																		
+																	if (document.getElementById('tableId1')!=null) {document.getElementById('tableId1').remove();}
+																	if (document.getElementById('dygraphRegion')!=null) {document.getElementById('dygraphRegion').remove();}
 
-				//update now
-				document.getElementById('upNow').onclick = function(){
-					var refreshOptions = document.getElementById('upOptions'),
-						refreshTime = parseInt(refreshOptions.options[refreshOptions.selectedIndex].value, 10);
+																	// Create the table, display the proper fields
+																	setTimeout(function () {document.getElementById('buttonList').className='unhidden';}, 900);		
+															
+																	// Get data and perform gain matching
+																	document.getElementById('GRGpTITLE').click();
+																	setTimeout(function () {createTable();}, 1300);															
+																	var list=calibrateAll(); 			
+															
+																	// Check values for outliers
+																	document.getElementById('SendODB').onclick=function() {ODB()};
+																	document.getElementById('uncheckAll').onclick=function() {uncheck()};
+																	document.getElementById('checkAll').onclick=function() {check()};
+																	setTimeout(function () {checkValues(list);}, 4160);			
+														
+									}																											
 
-					clearInterval(refreshCycle);
-					refreshSpectra();
-					if(refreshTime != -1)
-						refreshCycle = setInterval(refreshSpectra, refreshTime);					
-				}
-				//onchange refresh time
-				document.getElementById('upOptions').onchange = function(){
-					var refreshTime = parseInt(this.options[this.selectedIndex].value, 10);
-					clearInterval(refreshCycle);
-					refreshSpectra();
-					if(refreshTime != -1)
-						refreshCycle = setInterval(refreshSpectra, refreshTime);	
-				}
+	}
 
-				//recently viewed header row
-				toggleSwitch('titleRow', 'toggleAll', 'x', 'Show All', 'Hide All', toggleAll.bind(null, true), toggleAll.bind(null, false), 1);
-				document.getElementById('titleRow').insertBefore(document.getElementById('toggleWraptoggleAll'), document.getElementById('fitTarget'));
+// Check the resolution of peaks in table form
+	document.getElementById("ResTable").onclick = function(){
 
-				//killAll button
-				document.getElementById('killAll').onclick = function(){
-					var key;
+					if (window.Res1=="" || window.Res2=="") {alert("Please enter a valid peak value");}
 
-					for(key in viewer.plotBuffer){
-						document.getElementById('kill'+key).onclick();
-					}
-				}
+					else {
+								if (document.getElementById('resOptions').value==0) {alert('Please select peak values');}
+	
+								else {
 
-				//clear fit results button
-				document.getElementById('clearFits').onclick = function(){
-					viewer.clearFits(function(){
-						var key;
+											// remove any pre-existing fields	
+											if (document.getElementById('tableId')!=null) {
+													document.getElementById('tableId').remove(); 
+													document.getElementById('buttonList').className='hidden';}
 
-						for(key in viewer.plotBuffer){
-							document.getElementById('fit'+key).innerHTML = '-';
-						}
-					});
-				}
+											if (document.getElementById('tableId1')!=null) {document.getElementById('tableId1').remove();}
+											
+											if (document.getElementById('dygraphRegion')!=null) {
+												document.getElementById('dygraphRegion').remove();
+												window.plot1.destroy();
+											}
 
-				//initially populate with whatever's requested from the query string, if anything
-				if(queryVars.spectrum && document.getElementById(queryVars.spectrum))
-					document.getElementById(queryVars.spectrum).onclick();
+											// Get data, calculate resolution and check for ill-defined peaks
+											document.getElementById('GRGeTITLE').click();
+											setTimeout(function (){createTable1();}, 1300)
+											setTimeout(function (){table(window.Res1,window.Res2);}, 1300)		
+											setTimeout(function (){checkPeaks();}, 4250);					
 
-				//re-fetch every period:
-				refreshSpectra();
-				refreshCycle = setInterval(refreshSpectra, 3000);
+											resolveAll();
+											document.getElementById("resOptions").value=0;
+										}
+						}	
 
-			};
+	}
 
-			//update the plot ranges onchange of the x-range input fields:
-			function updatePlotRange(){
-				var xMin = document.getElementById('minX'),
-					xMax = document.getElementById('maxX');
+// Check the resolution in graph form
+	document.getElementById("ResGraph").onclick = function(){
 
-				viewer.XaxisLimitMin = parseInt(xMin.value,10);
-				viewer.XaxisLimitMax = parseInt(xMax.value,10);
+	if (document.getElementById('resOptions').value==0) {alert('Please select peak values');}
+	else if (window.Res1=="" || window.Res2=="") {alert("Please enter a valid peak value");}
 
-				viewer.plotData();				
-			};
+	else {
 
-			//show / hide all toggle
-			function toggleAll(show){
-				var key;
+				// remove any pre-existing fields
+				if (document.getElementById('tableId')!=null) {
+						document.getElementById('tableId').remove(); 
+						document.getElementById('buttonList').className='hidden';}
+				if (document.getElementById('tableId1')!=null) {document.getElementById('tableId1').remove();}
 
-				for(key in viewer.plotBuffer){
-					setToggle('toggleSwitchtoggle'+key, show);
-				}
-			};
+				// create dygraph region to later fill with data
+				var div = document.createElement("div");
+				div.setAttribute('id','dygraphRegion');
+				div.style.width = "1100px";
+				div.style.height = "700px";
+				document.getElementById('canvasWrapCalibration').appendChild(div);	
+
+				// fill dygraph region with base information
+				setTimeout(function (){
+				if(window.plot1) {window.plot1.destroy();}
+				window.plot1=new Dygraph(document.getElementById("dygraphRegion"),
+								    [ [0,NaN,NaN],[64,NaN,NaN] ],
+								      {
+								        legend: 'always',
+												labels: [ "x", window.Res1+" peak", window.Res2+" peak"  ],
+												xlabel: "Channels, starting at GRG01BN00A_Energy=0",
+												title: "Zoom: click-drag, Pan: shift-click-drag, Restore: double-click",	
+												ylabel: "Energy Resolution [keV]",
+												colors: ["#339933", "#0066FF"]
+								      });				
+
+				}, 1800);			
+
+				// get data and calculate FWHM values
+				document.getElementById('GRGeTITLE').click();
+
+				var resolvedPeaks=resolveAllPlot(); //Array with elements [ [res1, res2], [res1,res2]...]
+				var firstPeak=new Array(channels);
+				var secondPeak=new Array(channels);			
+				var dyGraph=new Array(channels);
+
+			// fill array in proper format for dygraphs
+			setTimeout(function (){
+
+							for (var i=0;i<channels;i++) {
+	
+							firstPeak[i]=resolvedPeaks[i][0];
+							secondPeak[i]=resolvedPeaks[i][1];
+				
+							dyGraph[i]=new Array(3);
+							dyGraph[i][0]=parseFloat(i); // prompt outputs results as a string
+							dyGraph[i][1]=parseFloat(firstPeak[i]);
+							dyGraph[i][2]=parseFloat(secondPeak[i]);
+
+							}
+
+						for (var i=0;i<=channels;i++) {
+
+										if (dyGraph[i+1]==undefined) {
+										dyGraph[i+1][2]=NaN; 
+										dyGraph[i+1][1]=NaN;
+
+
+										}						
+			
+										else {
+
+												if (dyGraph[i][2]==dyGraph[i+1][2]) {
+												dyGraph[i+1][2]=NaN; 
+
+												}	
+
+												if (dyGraph[i][1]==dyGraph[i+1][1]) {
+												dyGraph[i+1][1]=NaN;
+
+												}	
+									}
+
+						} 
+
+			},3950);
+
+			// fill the dygraph with the calculated values for resolution
+			setTimeout(function (){
+			if (window.plot) {window.plot.destroy();}
+
+			window.plot=new Dygraph(document.getElementById("dygraphRegion"),
+
+										dyGraph,
+					
+						        {
+						        	
+											title: "Zoom: click-drag, Pan: shift-click-drag, Restore: double-click",	
+											legend: 'always',
+											labels: [ "x", window.Res1+" peak", window.Res2+" peak"  ],
+											xlabel: "Channels, starting at 0=GRG01BN00A_Energy",
+											ylabel: "Energy Resolution [keV]",
+											colors: ["#339933", "#0066FF"],
+											includeZero:true,
+											strokeWidth: 2,
+
+											underlayCallback: function(canvas, area, g) { // shade in the area of each detector - 4 bins wide
+
+												for (var start=0;start<=59;start=start+8)
+												{	
+												  var bottom_left = g.toDomCoords(start, -20);
+												  var top_right = g.toDomCoords(start+4, +20);
+
+												  var left = bottom_left[0];
+												  var right = top_right[0];
+
+												  canvas.fillStyle = "rgba(60, 60, 60,1)";
+												  canvas.fillRect(left, area.y, right - left, area.h);
+												}
+}
+
+
+								
+						        });				
+			document.getElementById('GRGeTITLE').click(); 
+			document.getElementById("resOptions").value=0;
+			
+			}, 4000);
+
+	}
+
+}
+
+
+}; // End of function main()
+
 
 			function setup(){
 				//initialize a global buffer for all the histograms we pull in:
 				spectrumBuffer = {};
 				//where's the base URL for the JSON?
-				window.baseURL = 'http://annikal.triumf.ca:9093/?cmd='
+				window.baseURL = 'http://grsmid00.triumf.ca:9093/?cmd='
 				//start by getting a list of spectra
 				populateSpectra();
+				
 			}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// Gain matching and resolution checking code - written by Elizabeth MacConnachie, summer 2015 ///
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+function optionSelect() { //Function to set global variables for a resolution check
+    var x = document.getElementById("resOptions").value;
+    
+		if (x==2) {window.Res1=1173; window.Res2=1332;} // peaks for 60Co
+		if (x==3) {window.Res1=121; window.Res2=1408;} // peaks for 152Eu
+		if (x==1) {window.Res1=window.prompt("Please enter the first peak value");		
+				window.Res2=window.prompt("Please enter the second peak value");	}
+
+
+}
+
+///////////////////////////////////////
+///////////////////////////////////////
+// The function gainMatch() performs a gain matching based on either a Co60 or Eu152 source and returns [m,b]
+
+function gainMatch(data1){	
+
+if (data1==undefined) {
+data1=Array.apply(null, Array(5)).map(Number.prototype.valueOf,0);
+
+}
+
+if(document.getElementById('calOptions').value==2) { 	// Peak values of interest determined by which source has been selected
+
+					window.endValue=740;				// Values for 60Co
+					window.peak1=1173;
+					window.peak2=1332;	
+					window.Eu=0;
+
+}	
+
+else if (document.getElementById('calOptions').value==3) {
+
+				window.endValue=80;			// Values for Eu152
+				window.peak1=121;				
+				window.peak2=1408;	
+				window.Eu=1;
+
+}
+
+
+		var del=window.peak2-window.peak1; // Set global variables for use in this function
+		var Peak1=window.peak1;
+		var Peak2=window.peak2;
+		var EndValue=window.endValue;
+
+		var m_array=0;	// Initialize values for slope, offset, and position array
+		var b_array=0;
+		var x1=0;
+		var x2=0;			
+		var positions=new Array(2);	
+		
+				var end=data1.length;	
+
+				for (var k=0;k<=EndValue;k++) // Selectively ignore background data
+				{ data1[k]=0; }
+
+				for (var k=1300;k<=end;k++) 
+				{ data1[k]=0; }
+
+				
+				if (window.Eu==1) {			// Code to ignore background data for a Eu152 source
+
+					for (var k=EndValue+40; k<=950; k++) {
+					data1[k]=0;
+					}
+				}
+
+				var max1=Math.max.apply(Math,data1); // First maximum
+
+				for(var i=0; i<=end;i=i+1) // Find the location of the first maximum in the array
+				{
+					if (data1[i]==max1)
+					{ 
+					positions[0]=i;
+					for (var z=-15;z<=15;z=z+1)
+					{
+						data1[i+z]=0;	
+					}
+ 
+					}		
+				}
+
+				var max2=Math.max.apply(Math,data1); // Second maximum
+
+				for(var i=0; i<=end;i=i+1) // Find the location of the other peak in the array
+				{
+					if (data1[i]==max2)
+					{ 
+					positions[1]=i; }		
+				}
+
+				if (positions[0]>positions[1]) //set the positions array in ascending x order
+					{  
+						x2=positions[0];
+						x1=positions[1];
+					}
+				else
+					{
+						x2=positions[1];
+						x1=positions[0];
+					}
+
+
+					m_array =del/(x2-x1); //perform gain matching
+					b_array = (Peak1 - (m_array*x1));
+					
+					
+					m_array=m_array.toFixed(4); //Round the calibration values to four decimal places
+					b_array=b_array.toFixed(4);
+	
+				
+				var calibrationArray=[m_array,b_array];
+
+				return calibrationArray;			// Return the calculated slope and offset values
+			
+}
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+// The function getRes() returns the resolution of the two peaks in question [FWHM, FWHM1]
+
+function getRes(array){
+
+if (array==undefined) {
+
+array=Array.apply(null, Array(5)).map(Number.prototype.valueOf,0);
+
+}
+
+if(document.getElementById('resOptions').value==2) { 	// Peak values for Co60
+
+					window.Res1=1173;
+					window.Res2=1332;	
+
+}	
+
+else if (document.getElementById('resOptions').value==3) {	// Peak values for Eu152
+
+				window.Res1=121;					
+				window.Res2=1408;	
+
+}
+var data=new Array(61); // Initialize new arrays for each peak region
+var data1=new Array(61);
+
+	for (var k=parseFloat(window.Res1)-30;k<=parseFloat(window.Res1)+30;k++) {	// Use data on either side of the peak
+	data[k-parseFloat(window.Res1)+30]=array[k];
+
+	}
+
+	for (var k=parseFloat(window.Res2)-30;k<=parseFloat(window.Res2)+30;k++) {	// Use data on either side of the peak
+	data1[k-parseFloat(window.Res2)+30]=array[k];
+	}
+
+
+var maxPeak=Math.max.apply(Math,data); //Find the first peak
+var maxPeak_1=Math.max.apply(Math,data1); //Find the second peak
+
+// variables for the first peak
+var N=data.length;
+var HM=maxPeak/2;				// half-max
+
+var m1,b1;
+var m2,b2;
+var left,right;
+
+//variables for the second peak
+var N_1=data.length;
+var HM_1=maxPeak_1/2;		// half-max
+
+var m1_1,b1_1;
+var m2_1,b2_1;
+var left_1,right_1;
+
+
+	for (var i=0;i<N;i++) {		// Find the location in the array of the first peak
+	if (data[i]==maxPeak) {var mid=i; break;}
+	}
+
+	for (var i=0;i<N_1;i++) {	// Find the location in the array of the second peak
+	if (data1[i]==maxPeak_1) {var mid_1=i; break;}
+	}
+
+
+// First peak calculation - resolution calculated by a linear interpolation 
+
+	for (var i=mid-6;i<=mid;i++) { //First half linear interpolation
+	
+		if(data[i]>HM && data[i-1]<=HM) {	
+		m1=data[i]-data[i-1];
+		b1=data[i]-m1*i;	
+		left=(HM-b1)/m1;
+
+		break;
+		}
+
+	}
+
+	for (var i=mid;i<=mid+6;i++) { //Second half linear interpolation
+	
+		if(data[i]>HM && data[i+1]<=HM) {		
+
+		m2=data[i+1]-data[i];
+		b2=data[i]-m2*i;	
+		right=(HM-b2)/m2;
+
+		break;
+		}
+	
+	}
+
+// Second peak calculation - resolution calculated by a linear interpolation
+
+for (var i=mid_1-6;i<=mid_1;i++) { //First half linear interpolation
+	
+		if(data1[i]>HM_1 && data1[i-1]<=HM_1) {
+		
+		var left_point=i;
+		m1_1=data1[i]-data1[i-1];
+		b1_1=data1[i]-m1_1*i;	
+		left_1=(HM_1-b1_1)/m1_1;
+		break;
+		}
+	}
+
+	for (var i=mid_1;i<=mid_1+6;i++) { //Second half linear interpolation
+	
+		if(data1[i]>HM_1 && data1[i+1]<=HM_1) {		
+		
+		var right_point=i;
+		m2_1=data1[i+1]-data1[i];
+		b2_1=data1[i]-m2_1*i;	
+		right_1=(HM_1-b2_1)/m2_1;
+
+		break;
+		}
+	
+	}
+
+
+var FWHM=(right-left).toFixed(3);	// Resolution of first peak, value rounded to 3 decimal places
+var FWHM_1=(right_1-left_1).toFixed(3);
+
+
+var resolutionArray=[FWHM,FWHM_1];
+return resolutionArray;	// Return resolution of first and second peak
+
+
+	
+}
+
 
 		</script>
 	</body>

@@ -35,7 +35,7 @@ function fieldViewer(canvasID){
 	this.containerPersistentOverlay = new createjs.Container(); //layer for persistent overlay elements
 	this.stage.addChild(this.containerMain);
 	this.stage.addChild(this.containerOverlay);
-	this.stage.addChild(this.containerPersistentOverlay);
+	this.stage.addChild(this.containerPersistentOverlay); 
 
 	//z-scale
 	this.barWidth = 20; //width of z scale bar, in px

@@ -13,7 +13,7 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
+article, aside, details, embed, 
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
@@ -31,8 +31,12 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	height:100%;
-	width:100%;
+	/*height:100%;
+	width:100%; */
+        -webkit-background-size: contain;
+        -moz-background-size: contain;
+        -o-background-size: contain;
+        background-size: contain;
 }
 ol, ul {
 	list-style: none;
@@ -82,8 +86,10 @@ div#branding{
 	border-left: 5px solid #999999;
 	border-bottom: 5px solid #999999;
 	border-bottom-left-radius: 25px;
+
 	margin-bottom: 1em;
 	padding-left: 1em;
+
 }
 
 #logo{
@@ -102,6 +108,8 @@ h1#headerBanner{
 
 /*navigation//////////////////////////////////////////////////////*/
 div#navigation{
+
+
 }
 
 /*buttons/////////////////////////////////////////////////////////*/
@@ -127,18 +135,44 @@ div.canvasWrap, div.sidebarWrap{
 	border: 5px solid #EEEEEE;
 	border-radius: 25px;
 	margin-bottom: 1em;
+position: relative;
+
+
+
 }
 
 div.canvasWrap{
-	width: 74%;
+	width: 65%;
 	height:90%;
 	float:left;
 	padding:1em;
 	margin-top: 1em;
+	overflow:scroll; 
 }
 
+div#canvasWrapCalibration{
+ 	display: inline-block;
+	width: 69%;
+	height:90%; 
+	float:left; 
+	padding:1em;
+	margin-top: 1em;
+	overflow:scroll; 
+	border: 5px solid #EEEEEE;
+border-radius: 25px;
+ -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+
+
+}
+
+
+
+
 div.sidebarWrap{
-	width:24%;
+	width:30%;
 	height:90%;
 	float:right;
 	padding:1em;
@@ -146,6 +180,41 @@ div.sidebarWrap{
 	overflow:scroll;
 	margin-top: 0.5em;
 }
+
+ul.availableSpecHIT li, ul.availableSpecSUM li, ul.availableSpecGRGe li, ul.availableSpecGRGt li, ul.availableSpecGRGp li, ul.availableSpecGRGw li, ul.availableSpecSEPe li, ul.availableSpecSEPt li, ul.availableSpecSEPp li, ul.availableSpecSEPw li, ul.availableSpecDSCe li, ul.availableSpecDSCt li, ul.availableSpecDSCp li, ul.availableSpecDSCw li, ul.availableSpecDSCz li, ul.availableSpecDSCl li, ul.availableSpecDSCs li{
+	padding:0.5em;
+}
+
+.hidden{
+        display: none !important;
+}
+
+.unhidden{
+        display: list-item !important;
+}
+
+
+ul.availableSpecHIT li:hover, ul.availableSpecSUM  li:hover, ul.availableSpecGRGe  li:hover, ul.availableSpecGRGt  li:hover, ul.availableSpecGRGp  li:hover, ul.availableSpecGRGw  li:hover, ul.availableSpecSEPe  li:hover, ul.availableSpecSEPt  li:hover, ul.availableSpecSEPp  li:hover, ul.availableSpecSEPw  li:hover, ul.availableSpecDSCe  li:hover, ul.availableSpecDSCt  li:hover, ul.availableSpecDSCp  li:hover, ul.availableSpecDSCw  li:hover, ul.availableSpecDSCz  li:hover, ul.availableSpecDSCl  li:hover, ul.availableSpecDSCs  li:hover{
+	border:1px solid #EEEEEE;
+}
+
+ul.availableSpecHIT li:nth-child(odd), ul.availableSpecSUM li:nth-child(odd), ul.availableSpecGRGe li:nth-child(odd), ul.availableSpecGRGt li:nth-child(odd), ul.availableSpecGRGp li:nth-child(odd), ul.availableSpecGRGw li:nth-child(odd), ul.availableSpecSEPe li:nth-child(odd), ul.availableSpecSEPt li:nth-child(odd), ul.availableSpecSEPp li:nth-child(odd), ul.availableSpecSEPw li:nth-child(odd), ul.availableSpecDSCe li:nth-child(odd), ul.availableSpecDSCt li:nth-child(odd), ul.availableSpecDSCp li:nth-child(odd), ul.availableSpecDSCw li:nth-child(odd), ul.availableSpecDSCz li:nth-child(odd), ul.availableSpecDSCl li:nth-child(odd), ul.availableSpecDSCs li:nth-child(odd){
+	background: #222222;
+}
+
+ul.availableSpecHIT li:nth-child(even), ul.availableSpecSUM li:nth-child(even), ul.availableSpecGRGe li:nth-child(even), ul.availableSpecGRGt li:nth-child(even), ul.availableSpecGRGp li:nth-child(even), ul.availableSpecGRGw li:nth-child(even), ul.availableSpecSEPe, ul.availableSpecSEPt, ul.availableSpecSEPp, ul.availableSpecSEPw li:nth-child(even), ul.availableSpecDSCe li:nth-child(even), ul.availableSpecDSCt li:nth-child(even), ul.availableSpecDSCp li:nth-child(even), ul.availableSpecDSCw li:nth-child(even), ul.availableSpecDSCz li:nth-child(even), ul.availableSpecDSCl li:nth-child(even), ul.availableSpecDSCs li:nth-child(even){
+	background: #444444;
+}
+
+#HITTITLE, #SUMTITLE, #GRGeTITLE, #GRGtTITLE, #GRGpTITLE, #GRGwTITLE, #SEPeTITLE, #SEPtTITLE, #SEPpTITLE, #SEPwTITLE, #DSCeTITLE, #DSCtTITLE, #DSCpTITLE, #DSCwTITLE, #DSCzTITLE, #DSClTITLE, #DSCsTITLE{
+	padding:0.5em;
+background: #222222;
+	font-size: 125%;
+	border: 2px solid #EEEEEE;
+	border-radius: 5px;
+display: list-item;
+}
+
 
 ul#availableSpectra li{
 	padding:0.5em;
@@ -223,6 +292,29 @@ select{
     appearance:none;
 }
 
+select#calOptions{
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;
+	font-size:110%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+	cursor: pointer;
+	margin:0px;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+ 	text-indent: 0.01px;
+    text-overflow: '';
+    appearance:none;
+}
+
+
+
+
+
+
 /*Deck Nav/////////////////////////////////////////////////////////////////////////////*/
 x-deck#mainDeck{
 	
@@ -257,6 +349,16 @@ label.inputLabel{
 	color: #999999;
 }
 
+label#calibrateLabel {
+
+		font-size:100%;
+}
+
+label#resolutionLabel {
+
+		font-size:100%;
+}
+
 label#linLabel, #linLabel2D{
 	float:left;
 }
@@ -277,10 +379,15 @@ div#recentSpectra{
 	clear: both;
 	padding: 1em;
 	float:left;
-	min-width: 100px;
+	/*width: 1800px; */
+	min-width: 120px; 
 	margin-bottom: 1em;
 	font-size: 150%;
 	padding-top:0px;
+}
+
+div#Calibration{
+	padding: 1em;
 }
 
 div#titleRow{
@@ -314,7 +421,7 @@ div.killSwitch{
 	width:2em;
 	height:2em;
 	border-radius: 1em;
-	float:right;
+	float:left;  /* Changed the format */
 	margin:0.5em;
 	border:1px solid #FFFFFF;
 	text-align: center;
@@ -456,6 +563,7 @@ div#wrapper{
 	height:100%;
 	margin-left: 1em;
 	margin-right: 1em;
+
 }
 
 div#bumperDiv {
@@ -476,4 +584,385 @@ div#footer {
 	padding:2em;
 	color: #EEEEEE;
 	font-size: 200%;
+
 } 
+/* Table related sytles */
+
+.unhidden1{
+        display: inline;
+}
+
+
+table#tableId {
+
+font-size: 165%;
+border: 1px solid white;
+position: relative;
+right: -110px;
+top: 180px; 
+font-family: 'Raleway', sans-serif;
+width:80%;
+
+
+
+}
+
+td {
+
+border: 1px solid white;
+text-align:center;
+padding-top:5px;
+padding-bottom:5px;
+height:30px;
+width:5.5em;
+
+}
+
+
+pre {
+
+font-size:180%;
+position: relative;
+left: 230px;
+top: 0px;
+text-align:center;
+}
+
+
+/* Calibration related styles */
+
+button#SendODB {
+ display: inline-block;
+font-size:100%;
+position:absolute;
+right: 1020px;
+top: -40px;
+
+
+
+}
+
+button#uncheckAll {
+ display: inline-block;
+font-size:100%;
+position:absolute;
+right: 1305px;
+top: -40px;
+
+
+}
+
+
+button#checkAll {
+ display: inline-block;
+font-size:100%;
+position:absolute;
+right: 1180px;
+top: -40px;
+
+
+
+}
+
+
+div#buttonList {
+
+
+ display: inline-block;
+font-size:180%;
+position:relative;
+right: 645px;
+top: 60px;
+width:200%;
+
+}
+
+
+
+select#calOptions {
+	
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;
+	font-size:90%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+	cursor: pointer;
+	margin:0px;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+ 	text-indent: 0.01px;
+
+}
+
+#performCalibration {
+	 display: inline-block;
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;
+	font-size:90%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+	cursor: pointer;
+	margin:0px;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+ 	text-indent: 0.01px;
+
+
+}
+
+button#redOutlier {
+ display: inline-block;
+	position:absolute;
+	top: -40px;
+	right: 880px;
+
+	background-color: #993333;
+	border-radius: 5px;
+	border:none;
+	font-size:250%;
+	padding: 0.5em;
+ 	text-indent: 0.01px;
+
+}
+
+p#redValue {
+ 	display: inline-block;
+	position:absolute;
+	top: -40px; 
+	right: 680px;
+	font-size:100%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+
+}
+
+
+button#brownOutlier {
+	
+	display: inline-block;
+	position:absolute;
+	top: 30px;
+	right: 880px;
+
+	background-color: #A37547;
+	border-radius: 5px;
+	border:none;
+	font-size:250%;
+	padding: 0.5em;
+ 	text-indent: 0.01px;
+
+}
+
+p#brownValue {
+	 display: inline-block;
+	position:absolute;
+	top: 30px;
+	right: 680px;
+	
+	font-size:100%;
+	padding: 0.5em; 
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+
+}
+
+label#waitMessage {
+	display: inline-block;
+	position:absolute;
+	right: 200px;
+
+	
+	font-size:160%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+
+}
+
+button#Reset {
+
+	 display: inline-block;
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;	
+	position:absolute;
+	right: 60px;
+	font-size:160%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+
+}
+
+
+#tableID {
+
+margin-bottom:80px;
+
+}
+
+
+/* Resolution related styles */
+
+#resolution {
+
+position:relative;
+padding-top:0.5em;
+padding-bottom:0.5em;
+
+}
+
+label#resMessage {
+	display: inline-block;
+	position:absolute;
+	right: 200px;
+	
+	font-size:160%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+
+}
+
+table#tableId1 {
+
+font-size: 165%;
+border: 1px solid white;
+position: relative;
+right: -110px;
+top: 50px; 
+font-family: 'Raleway', sans-serif;
+width:85%;
+margin-bottom:80px;
+
+}
+
+
+#resolutionPlot {
+	width: 69%;
+	height:90%; 
+
+}
+/* ////////////////////////////// */
+/* Refer to http://dygraphs.com/css.html */
+
+#dygraphRegion {
+position:relative;
+padding-top:1em;
+width: 69%;
+height: 90%;
+
+}
+
+.dygraph-axis-label.dygraph-axis-label-y{
+color: #FFFFFF;
+}
+
+.dygraph-axis-label.dygraph-axis-label-x{
+color: #FFFFFF;
+}
+
+.dygraph-label.dygraph-xlabel{
+
+padding-top:1em;
+
+}
+
+.dygraph-title {
+font-size:80%;
+font-style:normal;
+}
+
+/* ////////////////////////////// */
+
+#resolutionPeaks{
+
+font-size:100%;
+
+}
+
+#ResTable{
+	display: inline-block;
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;	
+	right: 60px;
+	font-size:100%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+
+}
+
+
+#ResGraph{
+
+	display: inline-block;
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;		
+	right: 60px;
+	font-size:100%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+
+
+}
+
+select#resOptions {
+	
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;
+	font-size:90%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+	cursor: pointer;
+	margin:0px;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+ 	text-indent: 0.01px;
+
+}
+
+#checkResolution {
+	 display: inline-block;
+	background-color: #444444;
+	border-radius: 5px;
+	color: #CCCCCC;
+	border:none;
+	font-size:90%;
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+	cursor: pointer;
+	margin:0px;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+ 	text-indent: 0.01px;
+
+
+}
+
+
+
+
+
+
+
+
+
+
